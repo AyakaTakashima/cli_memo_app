@@ -2,17 +2,21 @@
   <h1>MEMO</h1>
   <div id="grid-container">
     <MemoList
-    v-on:sendDataToParent="receiveData" />
-    <MemoEdit
-    v-model:dataForEdit.sync="memo"
-    v-on:edit-memo="updateMemo"
-    v-on:delete-memo="deleteMemo"/>
+      v-on:sendDataToParent="receiveData"
+      />
+    <div v-if="this.$route.path.match(/edit$/)">
+      <router-view
+        id="edit-view"
+        v-model:dataForEdit.sync="memo"
+        v-on:edit-memo="updateMemo"
+        v-on:delete-memo="deleteMemo"
+        />
+    </div>
   </div>
 </template>
 
 <script>
 import MemoList from './components/MemoList.vue'
-import MemoEdit from './components/MemoEdit.vue'
 
 export default {
   name: 'App',
@@ -22,7 +26,7 @@ export default {
     }
   },
   components: {
-    MemoList, MemoEdit
+    MemoList
   },
   methods: {
     receiveData(memo){
@@ -66,7 +70,7 @@ h1 {
   grid-column: 1 / 2;
 }
 
-#MemoEdit {
+#edit-view {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
 }

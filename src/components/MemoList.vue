@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="memo-list-view">
     <div id="memo-list">
       <div
         class="memo"
@@ -30,7 +30,7 @@
   const memoList = {
     data() {
       return {
-        memos: []
+        memos: [],
       }
     },
     emits:["sendDataToParent"],
@@ -51,13 +51,14 @@
     methods: {
       addMemo: function () {
         const idNumber = new Date().getTime().toString()
-        const memo = {
+        const new_memo = {
           id: idNumber,
           text: '新規メモ',
           deleteFlag: false
         }
-        localStorage.setItem(idNumber, JSON.stringify(memo))
-        this.memos.push(memo)
+        localStorage.setItem(idNumber, JSON.stringify(new_memo))
+        this.memos.push(new_memo)
+        this.$emit('sendDataToParent', new_memo)
         this.$router.push({path: `/memos/${idNumber}/edit`})
       },
       getDataForEdit(memoId) {
@@ -66,7 +67,7 @@
       },
       memoTitle(text) {
         return text.split('\n')[0]
-      }
+      },
     }
   }
 
@@ -75,44 +76,43 @@
 
 <style>
 #memo-list{
-    width: 400px;
+  width: 400px;
 }
 
 .memo{
-    padding: 10px;
-    cursor: pointer;
+  padding: 10px;
 }
 
 .memo:hover {
-    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 .memo:hover span{
-    font-size: 20px
+  font-size: 20px
 }
 
 #add-memo{
-    text-align: center;
-    padding: 20px;
+  text-align: center;
+  padding: 20px;
 }
 
 #plus-button{
-    background-color: #f9fff9;
-    border: 1px solid #008080;
-    border-radius: 100%;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+  background-color: #f9fff9;
+  border: 1px solid #008080;
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 #plus-button:hover{
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 #plus-icon{
-    font-size: 20px;
-    color: #7fffbf;
-    font-weight: bold;
+  font-size: 20px;
+  color: #7fffbf;
+  font-weight: bold;
 }
 
 </style>

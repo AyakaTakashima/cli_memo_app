@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MemoList from './components/MemoList.vue'
 import MemoEdit from './components/MemoEdit.vue'
 
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -14,7 +13,7 @@ const router = createRouter({
     {
       name: 'memo-list',
       path: '/memos',
-      component: MemoList
+      component: MemoList,
     },
     {
       name: 'edit-url',
