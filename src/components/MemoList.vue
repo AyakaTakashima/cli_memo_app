@@ -1,26 +1,26 @@
 <template>
-  <div id="memo-list-view">
-    <div id="memo-list">
+  <div>
+    <div class="memo-list">
       <div
         class="memo"
         v-for="memo in memoListData"
         :key="memo.id"
         >
           <span
-          v-on:click="getDataForEdit(memo.id)"
-          v-cloak>
-          <router-link :to="{ name: 'edit-url', params: {memoId: memo.id}}">
-              {{ memoTitle(memo.text) }}
-          </router-link>
+            v-on:click="getDataForEdit(memo.id)"
+            v-cloak>
+              <router-link :to="{ name: 'edit-url', params: {memoId: memo.id}}">
+                {{ memoTitle(memo.text) }}
+              </router-link>
           </span>
       </div>
     </div>
-    <div id="add-memo">
+    <div class="add-memo">
       <button
         @click="addMemo"
-        id="plus-button"
+        class="plus-button"
       >
-        <span id="plus-icon">＋</span>
+        <span class="plus-icon">＋</span>
       </button>
     </div>
   </div>
@@ -33,37 +33,37 @@
         memos: [],
       }
     },
-    emits:["sendDataToParent"],
+    emits:["send-data-to-parent"],
     computed: {
         memoListData: function() {
-            return this.memos.filter(memo => memo.deleteFlag == false)
+          return this.memos.filter(memo => memo.deleteFlag === false)
         },
     },
     mounted () {
       if (localStorage) {
         for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i)
-        const memo_data = JSON.parse(localStorage.getItem(key))
-        this.memos.push(memo_data)
+          const key = localStorage.key(i)
+          const memoData = JSON.parse(localStorage.getItem(key))
+          this.memos.push(memoData)
         }
       }
     },
     methods: {
-      addMemo: function () {
+      addMemo() {
         const idNumber = new Date().getTime().toString()
-        const new_memo = {
+        const newMemo = {
           id: idNumber,
           text: '新規メモ',
           deleteFlag: false
         }
-        localStorage.setItem(idNumber, JSON.stringify(new_memo))
-        this.memos.push(new_memo)
-        this.$emit('sendDataToParent', new_memo)
+        localStorage.setItem(idNumber, JSON.stringify(newMemo))
+        this.memos.push(newMemo)
+        this.$emit('send-data-to-parent', newMemo)
         this.$router.push({path: `/memos/${idNumber}/edit`})
       },
       getDataForEdit(memoId) {
         const memo = this.memos.find(memo => memo.id === memoId)
-        this.$emit('sendDataToParent', memo)
+        this.$emit('send-data-to-parent', memo)
       },
       memoTitle(text) {
         return text.split('\n')[0]
@@ -71,11 +71,11 @@
     }
   }
 
-  export default memoList
+  export { memoList as default }
 </script>
 
 <style>
-#memo-list{
+.memo-list{
   width: 400px;
 }
 
@@ -91,12 +91,12 @@
   font-size: 20px
 }
 
-#add-memo{
+.add-memo{
   text-align: center;
   padding: 20px;
 }
 
-#plus-button{
+.plus-button{
   background-color: #f9fff9;
   border: 1px solid #008080;
   border-radius: 100%;
@@ -105,11 +105,11 @@
   cursor: pointer;
 }
 
-#plus-button:hover{
+.plus-button:hover{
   opacity: 0.6;
 }
 
-#plus-icon{
+.plus-icon{
   font-size: 20px;
   color: #7fffbf;
   font-weight: bold;

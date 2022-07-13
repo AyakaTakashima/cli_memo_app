@@ -1,54 +1,55 @@
 <template>
   <div>
-    <div id="textarea">
+    <div>
       <textarea
-       id="memo_textarea"
-       type="text"
-       :value="dataForEdit.text"
-       ></textarea>
+        id="memo-textarea"
+        type="text"
+        :value="dataForEdit.text"
+        ></textarea>
     </div>
-    <div id="buttons-box">
-      <input id="delete-button" type="button" value="削除"
-       v-on:click="deleteMemo(dataForEdit.id)"
-       />
-      <input id="save-button" type="button" value="保存"
-       v-on:click="saveMemo(dataForEdit.id)"
-       />
+    <div class="buttons-box">
+      <input class="delete-button" type="button" value="削除"
+        v-on:click="deleteMemo(dataForEdit.id)"
+        />
+      <input class="save-button" type="button" value="保存"
+        v-on:click="saveMemo(dataForEdit.id)"
+        />
     </div>
   </div>
 </template>
 
 <script>
-const editMemo = {
-  props:{
-    memoId: {type: Number},
-    "dataForEdit": {type: undefined}
-  },
-  emits:[
-    "update:dataForEdit",
-    "delete-memo",
-    "edit-memo"
-    ],
-  methods: {
-    deleteMemo: function(memoId) {
-      const deletedMemo = JSON.parse(localStorage[memoId])
-      deletedMemo.deleteFlag = true
-      localStorage.setItem(memoId, JSON.stringify(deletedMemo))
-      this.$emit('delete-memo')
-      const textarea = document.getElementById("memo_textarea")
-      textarea.value = ""
-      this.$router.push({path: '/'})
+  const editMemo = {
+    props:{
+      memoId: {type: Number},
+      'dataForEdit': {type: undefined}
     },
-    saveMemo: function(memoId) {
-      const editedMemo = JSON.parse(localStorage[memoId])
-      const content = document.getElementById("memo_textarea").value
-      editedMemo.text = content
-      localStorage.setItem(memoId, JSON.stringify(editedMemo))
-      this.$emit('edit-memo', content)
+    emits:[
+      "send-data-to-parent",
+      "delete-memo",
+      "edit-memo"
+      ],
+    methods: {
+      deleteMemo(memoId) {
+        const deletedMemo = JSON.parse(localStorage[memoId])
+        deletedMemo.deleteFlag = true
+        localStorage.setItem(memoId, JSON.stringify(deletedMemo))
+        this.$emit('delete-memo')
+        const textarea = document.getElementById("memo-textarea")
+        textarea.value = ""
+        this.$router.push({path: '/'})
+      },
+      saveMemo(memoId) {
+        const editedMemo = JSON.parse(localStorage[memoId])
+        const content = document.getElementById("memo-textarea").value
+        editedMemo.text = content
+        localStorage.setItem(memoId, JSON.stringify(editedMemo))
+        this.$emit('edit-memo', content)
+      }
     }
   }
-}
-export default editMemo
+
+  export { editMemo as default }
 </script>
 
 <style>
@@ -61,12 +62,12 @@ textarea {
   font-size: 20px;
 }
 
-#buttons-box{
+.buttons-box{
   position: relative;
   height: 100px;
 }
 
-#delete-button{
+.delete-button{
   color: #f9fff9;
   font-weight: bold;
   border: none;
@@ -80,11 +81,11 @@ textarea {
   cursor: pointer;
 }
 
-#delete-button:hover{
+.delete-button:hover{
   opacity: 0.8;
 }
 
-#save-button{
+.save-button{
   color: #f9fff9;
   font-weight: bold;
   border: none;
@@ -98,7 +99,7 @@ textarea {
   cursor: pointer;
 }
 
-#save-button:hover{
+.save-button:hover{
   opacity: 0.8;
 }
 

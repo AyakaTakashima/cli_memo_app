@@ -1,13 +1,14 @@
 <template>
   <h1>MEMO</h1>
-  <div id="grid-container">
+  <div class="grid-container">
     <MemoList
-      v-on:sendDataToParent="receiveData"
+      v-on:send-data-to-parent="receiveData"
+      class="memo-list"
       />
     <div v-if="this.$route.path.match(/edit$/)">
       <router-view
-        id="edit-view"
-        v-model:dataForEdit.sync="memo"
+        class="edit-view"
+        v-model:dataForEdit="memo"
         v-on:edit-memo="updateMemo"
         v-on:delete-memo="deleteMemo"
         />
@@ -16,30 +17,30 @@
 </template>
 
 <script>
-import MemoList from './components/MemoList.vue'
-
-export default {
-  name: 'App',
-  data() {
-    return{
-      memo: []
-    }
-  },
-  components: {
-    MemoList
-  },
-  methods: {
-    receiveData(memo){
-      this.memo = memo
+  import MemoList from './components/MemoList.vue'
+  
+  export default {
+    name: 'App',
+    data() {
+      return{
+        memo: []
+      }
     },
-    updateMemo(content) {
-      this.memo.text = content
+    components: {
+      MemoList
     },
-    deleteMemo() {
-      this.memo.deleteFlag = true
+    methods: {
+      receiveData(memo){
+        this.memo = memo
+      },
+      updateMemo(content) {
+        this.memo.text = content
+      },
+      deleteMemo() {
+        this.memo.deleteFlag = true
+      }
     }
   }
-}
 </script>
 
 <style>
@@ -58,19 +59,19 @@ h1 {
   margin-top: 60px;
 }
 
-#grid-container {
+.grid-container {
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 50% 1fr;
   place-items: start;
   justify-items: center;
 }
-#MemoList {
+.memo-list {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
 }
 
-#edit-view {
+.edit-view {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
 }
