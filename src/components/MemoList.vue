@@ -42,15 +42,18 @@
     mounted () {
       if (localStorage) {
         for (let i = 0; i < localStorage.length; i++) {
+          const regex = new RegExp(/^M\d{13}$/);
           const key = localStorage.key(i)
-          const memoData = JSON.parse(localStorage.getItem(key))
-          this.memos.push(memoData)
+          if (regex.test(key)) {
+            const memoData = JSON.parse(localStorage.getItem(key))
+            this.memos.push(memoData)
+          }
         }
       }
     },
     methods: {
       addMemo() {
-        const idNumber = new Date().getTime().toString()
+        const idNumber = 'M' + new Date().getTime().toString()
         const newMemo = {
           id: idNumber,
           text: '新規メモ',

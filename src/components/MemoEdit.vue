@@ -21,7 +21,7 @@
 <script>
   const editMemo = {
     props:{
-      memoId: {type: Number},
+      memoId: {type: undefined},
       'dataForEdit': {type: undefined}
     },
     emits:[
