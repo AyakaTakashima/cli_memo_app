@@ -23,7 +23,7 @@
     name: 'App',
     data() {
       return{
-        memo: []
+        memo: {}
       }
     },
     components: {
