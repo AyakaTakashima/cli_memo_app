@@ -2,7 +2,7 @@
   <div>
     <div>
       <textarea
-        id="memo-textarea"
+        ref="memoTextarea"
         type="text"
         :value="dataForEdit.text"
         ></textarea>
@@ -31,17 +31,14 @@
       ],
     methods: {
       deleteMemo(memoId) {
-        const deletedMemo = JSON.parse(localStorage[memoId])
-        deletedMemo.deleteFlag = true
-        localStorage.setItem(memoId, JSON.stringify(deletedMemo))
+        localStorage.removeItem(memoId)
         this.$emit('delete-memo')
-        const textarea = document.getElementById("memo-textarea")
-        textarea.value = ""
+
         this.$router.push({path: '/'})
       },
       saveMemo(memoId) {
         const editedMemo = JSON.parse(localStorage[memoId])
-        const content = document.getElementById("memo-textarea").value
+        const content = this.$refs.memoTextarea.value
         editedMemo.text = content
         localStorage.setItem(memoId, JSON.stringify(editedMemo))
         this.$emit('edit-memo', content)

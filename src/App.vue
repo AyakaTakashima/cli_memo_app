@@ -2,6 +2,7 @@
   <h1>MEMO</h1>
   <div class="grid-container">
     <MemoList
+      ref="memoList"
       v-on:send-data-to-parent="receiveData"
       class="memo-list"
       />
@@ -37,7 +38,8 @@
         this.memo.text = content
       },
       deleteMemo() {
-        this.memo.deleteFlag = true
+        const idNumber = this.memo.id
+        this.$refs.memoList.deleteMemoFromList(idNumber)
       }
     }
   }

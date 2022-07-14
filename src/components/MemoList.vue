@@ -3,7 +3,7 @@
     <div class="memo-list">
       <div
         class="memo"
-        v-for="memo in memoListData"
+        v-for="memo in memos"
         :key="memo.id"
         >
           <span
@@ -34,11 +34,6 @@
       }
     },
     emits:["send-data-to-parent"],
-    computed: {
-        memoListData: function() {
-          return this.memos.filter(memo => memo.deleteFlag === false)
-        },
-    },
     mounted () {
       if (localStorage) {
         for (let i = 0; i < localStorage.length; i++) {
@@ -57,7 +52,6 @@
         const newMemo = {
           id: idNumber,
           text: '新規メモ',
-          deleteFlag: false
         }
         localStorage.setItem(idNumber, JSON.stringify(newMemo))
         this.memos.push(newMemo)
@@ -71,6 +65,9 @@
       memoTitle(text) {
         return text.split('\n')[0]
       },
+      deleteMemoFromList(idNumber) {
+        this.memos = this.memos.filter(memo => memo.id !== idNumber)
+      }
     }
   }
 
