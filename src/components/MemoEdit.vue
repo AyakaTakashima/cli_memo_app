@@ -1,43 +1,52 @@
 <template>
-  <div>
-    <div>
-      <textarea
-        type="text"
-        :value="dataForEdit.text"
-        v-on:change="updateData"
-        ></textarea>
-    </div>
-    <div class="buttons-box">
-      <input class="delete-button" type="button" value="削除"
-        v-on:click="deleteMemo(dataForEdit.id)"
-        />
-      <input class="save-button" type="button" value="保存"
-        v-on:click="saveMemo(dataForEdit.id)"
-        />
+  <div class="grid-container">
+    <MemoList
+      class="memo-list-view"
+      v-on:send-data-to-parent="receiveData"
+      />
+    <div class="edit-view">
+      <div class="">
+        <textarea
+          type="text"
+        :value="memo.text"
+          v-on:change="updateData"
+          ></textarea>
+      </div>
+      <p>{{memo.id}}</p>
+      <div class="buttons-box">
+        <input class="delete-button" type="button" value="削除"
+          v-on:click="deleteMemo(memo.id)"
+          />
+        <input class="save-button" type="button" value="保存"
+          v-on:click="saveMemo(memo.id)"
+          />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import MemoList from './MemoList.vue'
+
   const editMemo = {
     data() {
       return {
+        memo: {},
         content: {},
       }
     },
     props:{
       memoId: {type: Number},
-      dataForEdit: {type: undefined}
     },
-    emits:[
-      "send-data-to-parent",
-      "delete-memo",
-      "edit-memo"
-      ],
+    components: {
+      MemoList
+    },
     methods: {
+      receiveData(memo){
+        this.memo = memo
+      },
       deleteMemo(memoId) {
         localStorage.removeItem(memoId)
-        this.$emit('delete-memo')
 
         this.$router.push({path: '/'})
       },
@@ -47,8 +56,8 @@
       saveMemo(memoId) {
         const editedMemo = JSON.parse(localStorage[memoId])
         editedMemo.text = this.content
+        this.memo.text = this.content
         localStorage.setItem(memoId, JSON.stringify(editedMemo))
-        this.$emit('edit-memo', this.content)
       }
     }
   }
@@ -57,6 +66,32 @@
 </script>
 
 <style>
+html {
+  background-color: #b2ffd8;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 50% 1fr;
+  place-items: start;
+  justify-items: center;
+}
+
+.memo-list-view {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+}
+
+.edit-view {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+}
+
 textarea {
   width: 400px;
   height: 300px;
