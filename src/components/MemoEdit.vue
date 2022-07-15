@@ -8,7 +8,7 @@
       <div class="">
         <textarea
           type="text"
-        :value="memo.text"
+          :value="memo.text"
           v-on:change="updateData"
           ></textarea>
       </div>
