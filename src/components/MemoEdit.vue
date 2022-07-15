@@ -12,7 +12,6 @@
           v-on:change="updateData"
           ></textarea>
       </div>
-      <p>{{memo.id}}</p>
       <div class="buttons-box">
         <input class="delete-button" type="button" value="削除"
           v-on:click="deleteMemo(memo.id)"
