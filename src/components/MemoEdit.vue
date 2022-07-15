@@ -5,6 +5,7 @@
         ref="memoTextarea"
         type="text"
         :value="dataForEdit.text"
+        v-on:change="updateData"
         ></textarea>
     </div>
     <div class="buttons-box">
@@ -20,9 +21,14 @@
 
 <script>
   const editMemo = {
+    data() {
+      return {
+        content: {},
+      }
+    },
     props:{
-      memoId: {type: undefined},
-      'dataForEdit': {type: undefined}
+      memoId: {type: Number},
+      dataForEdit: {type: undefined}
     },
     emits:[
       "send-data-to-parent",
@@ -36,12 +42,14 @@
 
         this.$router.push({path: '/'})
       },
+      updateData(event) {
+        this.content = event.target.value
+      },
       saveMemo(memoId) {
         const editedMemo = JSON.parse(localStorage[memoId])
-        const content = this.$refs.memoTextarea.value
-        editedMemo.text = content
+        editedMemo.text = this.content
         localStorage.setItem(memoId, JSON.stringify(editedMemo))
-        this.$emit('edit-memo', content)
+        this.$emit('edit-memo', this.content)
       }
     }
   }
