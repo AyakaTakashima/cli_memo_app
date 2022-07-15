@@ -2,7 +2,6 @@
   <div>
     <div>
       <textarea
-        ref="memoTextarea"
         type="text"
         :value="dataForEdit.text"
         v-on:change="updateData"
