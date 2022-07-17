@@ -8,16 +8,16 @@
       <div class="">
         <textarea
           type="text"
-          :value="memo.text"
+          :value="dataForEdit.text"
           v-on:change="updateData"
           ></textarea>
       </div>
       <div class="buttons-box">
         <input class="delete-button" type="button" value="削除"
-          v-on:click="deleteMemo(memo.id)"
+          v-on:click="deleteMemo(dataForEdit.id)"
           />
         <input class="save-button" type="button" value="保存"
-          v-on:click="saveMemo(memo.id)"
+          v-on:click="saveMemo(dataForEdit.id)"
           />
       </div>
     </div>
@@ -36,6 +36,11 @@
     },
     props:{
       memoId: {type: Number},
+    },
+    computed: {
+      dataForEdit(){
+        return JSON.parse(localStorage.getItem(this.memoId))
+      }
     },
     components: {
       MemoList
