@@ -35,7 +35,7 @@
       }
     },
     props:{
-      memoId: {type: Number},
+      memoId: {type: String},
     },
     computed: {
       dataForEdit(){

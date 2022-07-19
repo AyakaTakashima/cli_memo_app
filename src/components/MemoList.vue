@@ -10,7 +10,7 @@
             v-on:click="getDataForEdit(memo.id)"
             v-cloak>
               <router-link :to="{ name: 'edit-url', params: {memoId: memo.id}}">
-                {{ memoTitle(memo.text) }}
+                {{ listingMemos(memo.text) }}
               </router-link>
           </span>
       </div>
@@ -46,6 +46,13 @@
         }
       }
     },
+    computed: {
+      listingMemos: function() {
+        return function(text){
+          return text.split('\n')[0]
+        }
+      }
+    },
     methods: {
       addMemo() {
         const idNumber = 'M' + new Date().getTime().toString()
@@ -61,10 +68,7 @@
       getDataForEdit(memoId) {
         const memo = this.memos.find(memo => memo.id === memoId)
         this.$emit('send-data-to-parent', memo)
-      },
-      memoTitle(text) {
-        return text.split('\n')[0]
-      },
+      }
     }
   }
 
