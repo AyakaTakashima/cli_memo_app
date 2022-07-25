@@ -47,9 +47,6 @@
       MemoList
     },
     methods: {
-      //receiveData(memo){
-      //  this.memo = memo
-      //},
       deleteMemo(memoId) {
         localStorage.removeItem(memoId)
 

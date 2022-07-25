@@ -63,10 +63,6 @@
         this.$emit('send-data-to-parent', newMemo)
         this.$router.push({name: 'memo-edit', params: { memoId: idNumber } })
       },
-      //getDataForEdit(memoId) {
-      //  const memo = this.memos.find(memo => memo.id === memoId)
-      //  this.$emit('send-data-to-parent', memo)
-      //}
     }
   }
 
