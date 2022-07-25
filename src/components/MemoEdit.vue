@@ -5,10 +5,11 @@
       v-on:send-data-to-parent="receiveData"
       />
     <div class="edit-view">
-      <div class="">
+      <div>
         <textarea
+          class="memo-edit-textarea"
           type="text"
-          :value="dataForEdit.text"
+          v-bind:value="dataForEdit.text"
           v-on:change="updateData"
           ></textarea>
       </div>
@@ -52,7 +53,7 @@
       deleteMemo(memoId) {
         localStorage.removeItem(memoId)
 
-        this.$router.push({path: '/'})
+        this.$router.push({name: 'memo-list'})
       },
       updateData(event) {
         this.content = event.target.value
@@ -69,15 +70,7 @@
   export { editMemo as default }
 </script>
 
-<style>
-html {
-  background-color: #b2ffd8;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
+<style scoped>
 .grid-container {
   display: grid;
   grid-template-rows: auto;
@@ -96,7 +89,7 @@ html {
   grid-column: 2 / 3;
 }
 
-textarea {
+.memo-edit-textarea {
   width: 400px;
   height: 300px;
   border-radius: 15px;

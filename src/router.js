@@ -16,7 +16,7 @@ const router = createRouter({
       component: MemoList,
     },
     {
-      name: 'edit-url',
+      name: 'memo-edit',
       path: '/memos/:memoId/edit',
       component: MemoEdit,
       props: true

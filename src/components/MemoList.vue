@@ -4,13 +4,13 @@
       <div
         class="memo"
         v-for="memo in memos"
-        :key="memo.id"
+        v-bind:key="memo.id"
         >
           <span
             v-on:click="getDataForEdit(memo.id)"
             v-cloak>
-              <router-link :to="{ name: 'edit-url', params: {memoId: memo.id}}">
-                {{ listingMemos(memo.text) }}
+              <router-link :to="{ name: 'memo-edit', params: {memoId: memo.id}}">
+                {{ listingMemo(memo.text) }}
               </router-link>
           </span>
       </div>
@@ -34,7 +34,7 @@
       }
     },
     emits:["send-data-to-parent"],
-    mounted () {
+    mounted() {
       if (localStorage) {
         for (let i = 0; i < localStorage.length; i++) {
           const regex = new RegExp(/^M\d{13}$/);
@@ -47,7 +47,7 @@
       }
     },
     computed: {
-      listingMemos: function() {
+      listingMemo() {
         return function(text){
           return text.split('\n')[0]
         }
@@ -63,7 +63,7 @@
         localStorage.setItem(idNumber, JSON.stringify(newMemo))
         this.memos.push(newMemo)
         this.$emit('send-data-to-parent', newMemo)
-        this.$router.push({path: `/memos/${idNumber}/edit`})
+        this.$router.push({name: 'memo-edit', params: { memoId: idNumber } })
       },
       getDataForEdit(memoId) {
         const memo = this.memos.find(memo => memo.id === memoId)
@@ -75,7 +75,7 @@
   export { memoList as default }
 </script>
 
-<style>
+<style scoped>
 .memo-list-view {
   width: 675px;
 }
