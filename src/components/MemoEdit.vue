@@ -2,23 +2,22 @@
   <div class="grid-container">
     <MemoList
       class="memo-list-view"
-      v-on:send-data-to-parent="receiveData"
       />
     <div class="edit-view">
       <div>
         <textarea
           class="memo-edit-textarea"
           type="text"
-          v-bind:value="dataForEdit.text"
+          v-bind:value="dataForEdit"
           v-on:change="updateData"
           ></textarea>
       </div>
       <div class="buttons-box">
         <input class="delete-button" type="button" value="削除"
-          v-on:click="deleteMemo(dataForEdit.id)"
+          v-on:click="deleteMemo(memoId)"
           />
         <input class="save-button" type="button" value="保存"
-          v-on:click="saveMemo(dataForEdit.id)"
+          v-on:click="saveMemo(memoId)"
           />
       </div>
     </div>
@@ -40,16 +39,17 @@
     },
     computed: {
       dataForEdit(){
-        return JSON.parse(localStorage.getItem(this.memoId))
+        const memo_data = JSON.parse(localStorage.getItem(this.memoId))
+        return memo_data.text
       }
     },
     components: {
       MemoList
     },
     methods: {
-      receiveData(memo){
-        this.memo = memo
-      },
+      //receiveData(memo){
+      //  this.memo = memo
+      //},
       deleteMemo(memoId) {
         localStorage.removeItem(memoId)
 
