@@ -63,6 +63,19 @@
         this.$emit('send-data-to-parent', newMemo)
         this.$router.push({name: 'memo-edit', params: { memoId: idNumber } })
       },
+      updateMemoList() {
+        this.memos = []
+        if (localStorage) {
+          for (let i = 0; i < localStorage.length; i++) {
+            const regex = new RegExp(/^M\d{13}$/);
+            const key = localStorage.key(i)
+            if (regex.test(key)) {
+              const memoData = JSON.parse(localStorage.getItem(key))
+              this.memos.push(memoData)
+            }
+          }
+        }
+      }
     }
   }
 

@@ -2,22 +2,23 @@
   <div class="grid-container">
     <MemoList
       class="memo-list-view"
+      ref="memoList"
       />
     <div class="edit-view">
       <div>
         <textarea
           class="memo-edit-textarea"
           type="text"
-          v-bind:value="dataForEdit"
-          v-on:change="updateData"
+          v-bind:value="textForEdit"
+          v-on:change="updateMemo"
           ></textarea>
       </div>
       <div class="buttons-box">
         <input class="delete-button" type="button" value="削除"
-          v-on:click="deleteMemo(memoId)"
+          v-on:click="deleteMemo"
           />
         <input class="save-button" type="button" value="保存"
-          v-on:click="saveMemo(memoId)"
+          v-on:click="saveMemo"
           />
       </div>
     </div>
@@ -30,36 +31,36 @@
   const editMemo = {
     data() {
       return {
-        memo: {},
-        content: {},
+        editingText: {}
       }
     },
     props:{
       memoId: {type: String},
     },
     computed: {
-      dataForEdit(){
-        const memo_data = JSON.parse(localStorage.getItem(this.memoId))
-        return memo_data.text
+      textForEdit(){
+        const memo = JSON.parse(localStorage.getItem(this.memoId))
+        this.editingText = memo.text
+        return memo.text
       }
     },
     components: {
       MemoList
     },
     methods: {
-      deleteMemo(memoId) {
-        localStorage.removeItem(memoId)
+      deleteMemo() {
+        localStorage.removeItem(this.memoId)
 
         this.$router.push({name: 'memo-list'})
       },
-      updateData(event) {
-        this.content = event.target.value
+      updateMemo(event) {
+        this.editingText = event.target.value
       },
-      saveMemo(memoId) {
-        const editedMemo = JSON.parse(localStorage[memoId])
-        editedMemo.text = this.content
-        this.memo.text = this.content
-        localStorage.setItem(memoId, JSON.stringify(editedMemo))
+      saveMemo() {
+        const editedMemo = JSON.parse(localStorage[this.memoId])
+        editedMemo.text = this.editingText
+        localStorage.setItem(this.memoId, JSON.stringify(editedMemo))
+        this.$refs.memoList.updateMemoList()
       }
     }
   }
