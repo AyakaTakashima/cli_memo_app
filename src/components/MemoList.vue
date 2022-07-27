@@ -31,7 +31,6 @@
         memos: [],
       }
     },
-    emits:["send-data-to-parent"],
     mounted() {
       if (localStorage) {
         for (let i = 0; i < localStorage.length; i++) {
@@ -60,7 +59,6 @@
         }
         localStorage.setItem(idNumber, JSON.stringify(newMemo))
         this.memos.push(newMemo)
-        this.$emit('send-data-to-parent', newMemo)
         this.$router.push({name: 'memo-edit', params: { memoId: idNumber } })
       },
       updateMemoList() {
